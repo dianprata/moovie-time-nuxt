@@ -1,0 +1,54 @@
+html, body , #__nuxt{
+  margin: 0;
+  padding: 0;
+  background: #1E232B;
+  color: #e5e5e5;
+  color-scheme: dark;
+}
+
+.container-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bottom-sheet__bar {
+  background: rgba(255,255,255, .3) !important;
+}
+.bottom-sheet__card {
+  background: #1E232B !important;
+}
+
+/* Transition Fade Slow */
+.fade-slow-enter-active,
+.fade-slow-leave-active {
+  transition: opacity 1.2s ease;
+}
+.fade-slow-enter-from,
+.fade-slow-leave-to {
+  opacity: 0;
+}
+
+/* Transition Fade Default */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+
+
+/* Transition Fade Top */
+.fade-top-enter-active, .fade-top-leave-active {
+  transition: opacity .3s, transform .35s;
+}
+.fade-top-enter {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.fade-top-leave-to{
+  opacity: 0;
+  transform: translateY(-100%);
+}
