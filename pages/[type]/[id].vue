@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { MediaType } from '~/types'
 
+definePageMeta({
+  key: route => route.fullPath,
+  validate: ({ params }) => {
+    return ['movie', 'tv'].includes(params.type as MediaType)
+  },
+})
+
 const route = useRoute()
 const type = computed(() => route.params.type as MediaType || 'movie')
 const id = computed(() => route.params.id as string)
@@ -12,9 +19,24 @@ const [item, recommendations, reviews] = await Promise.all([
 ])
 
 const genreList = await getGenreList(type.value)
-function getGenre(genre_ids) {
+function getGenre(genre_ids: number) {
   return genreList.find(item => item.id === genre_ids)?.name || ''
 }
+
+const $img = useImage()
+
+useHead({
+  title: item.name || item.title,
+  meta: [
+    { name: 'description', content: item.overview },
+    { property: 'og:title', content: item.name || item.title },
+    { property: 'og:description', content: item.overview },
+    { property: 'og:image', content: $img(`/tmdb${item.poster_path}`, { width: 1200, height: 630 }) },
+    { property: 'twitter:title', content: item.name || item.title },
+    { property: 'twitter:description', content: item.overview },
+    { property: 'twitter:image', content: $img(`/tmdb${item.poster_path}`, { width: 1200, height: 630 }) },
+  ],
+})
 </script>
 
 <template>

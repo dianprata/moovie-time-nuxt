@@ -1,2 +1,2 @@
-export const appName = 'Vitesse for Nuxt 3'
-export const appDescription = 'Vitesse for Nuxt 3'
+export const appName = 'Moovie Time'
+export const appDescription = 'A TMDB client built with Nuxt Image to show the potential of it ✨'
