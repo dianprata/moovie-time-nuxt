@@ -7,8 +7,8 @@ defineProps<{
 </script>
 
 <template>
-  <div class="bg-white">
-    <div class="container-wrapper px-4 pb-16">
+  <div class="bg-white pb-16">
+    <div class="container-wrapper max-h-96 of-y-auto px-4 pb-4">
       <span class="mb-6 inline-block text-sm font-medium uppercase text-[#FF0000]">Reviews</span>
       <div class="grid grid-cols-minmax-20rem gap-4 lg:grid-cols-minmax-30rem lg:gap-8">
         <template v-if="reviews.length > 0">
