@@ -28,8 +28,8 @@ Moovie Time is a web application that allows you to search for movies and series
 <img width="1191" src="./public/screenshots/screenshot-moovie-time-1.png"><br><br>
 <img width="1191" src="./public/screenshots/screenshot-moovie-time-2.png"><br><br>
 <img width="1191" src="./public/screenshots/screenshot-moovie-time-3.png"><br><br>
-<img width="764" src="./public/screenshots/screenshot-moovie-time-4.png">
-<img width="764" src="./public/screenshots/screenshot-moovie-time-5.png">
+<img width="576" src="./public/screenshots/screenshot-moovie-time-4.png">
+<img width="576" src="./public/screenshots/screenshot-moovie-time-5.png">
 
 ## Setup
 
