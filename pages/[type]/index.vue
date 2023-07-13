@@ -3,9 +3,21 @@ import { VueBottomSheet } from '@webzlodimir/vue-bottom-sheet'
 import '@webzlodimir/vue-bottom-sheet/dist/style.css'
 import type { Media, MediaType, Options } from '~/types'
 
+definePageMeta({
+  key: route => route.fullPath,
+  validate: ({ params }) => {
+    return ['movie', 'tv'].includes(params.type as MediaType)
+  },
+})
+
 const route = useRoute()
-const type = route.params?.type as MediaType || 'movie'
-const title = getTitle(type)
+const type = computed(() => route.params.type as MediaType || 'movie')
+
+useHead({
+  title: type.value === 'movie' ? 'Movies' : 'TV Shows',
+})
+
+const title = getTitle(type.value)
 const filterBottomSheet = ref(null)
 
 const sortBy = ref({
@@ -41,7 +53,7 @@ const sortByOptions = [
     value: 'vote_average.desc',
   },
 ] as Options[]
-const genreList = await getGenreList(type)
+const genreList = await getGenreList(type.value)
 function getGenre(genre_ids: number) {
   return genreList.find(item => item.id === genre_ids)?.name || ''
 }
@@ -52,7 +64,7 @@ async function fetchDiscoverList() {
     sort_by: sortBy.value.value,
     with_genres: genres.value.map(obj => obj.id).join(','),
   }
-  const data = await getDiscover(type, payload)
+  const data = await getDiscover(type.value, payload)
   lists.value = data.results
 }
 
