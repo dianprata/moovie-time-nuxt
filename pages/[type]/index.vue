@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VueBottomSheet } from '@webzlodimir/vue-bottom-sheet'
 import '@webzlodimir/vue-bottom-sheet/dist/style.css'
-import type { Media, MediaType, Options } from '~/types'
+import type { Genre, Media, MediaType, Options } from '~/types'
 
 definePageMeta({
   key: route => route.fullPath,
@@ -18,16 +18,18 @@ useHead({
 })
 
 const title = getTitle(type.value)
-const filterBottomSheet = ref(null)
+const filterBottomSheet = ref()
+const loadingLoad = ref(false)
+const page = ref(1)
 
 const sortBy = ref({
   name: 'Popularity Descending',
   value: 'popularity.desc',
 })
-const genres = ref([])
+const genres = ref<Genre[]>([])
 
-const lists = ref<Media[]>()
-const sortByOptions = [
+const lists = ref<Media[]>([])
+const sortByOptions: Options[] = [
   {
     name: 'Popularity Ascending',
     value: 'popularity.asc',
@@ -58,14 +60,17 @@ function getGenre(genre_ids: number) {
   return genreList.find(item => item.id === genre_ids)?.name || ''
 }
 
-async function fetchDiscoverList() {
+async function fetchDiscoverList(loadMore = false) {
   const payload = {
-    page: 1,
+    page: page.value,
     sort_by: sortBy.value.value,
     with_genres: genres.value.map(obj => obj.id).join(','),
   }
   const data = await getDiscover(type.value, payload)
-  lists.value = data.results
+  if (loadMore)
+    lists.value.push(...data.results)
+  else
+    lists.value = data.results
 }
 
 function openFilter() {
@@ -78,12 +83,38 @@ function resetFilter() {
     value: 'popularity.desc',
   }
   genres.value = []
+  page.value = 1
   fetchDiscoverList()
 }
 
 const filtered = computed(() => sortBy.value.value !== 'popularity.desc' || genres.value.length > 0)
 
-watchEffect(() => fetchDiscoverList())
+async function handleLoadMore() {
+  if (loadingLoad.value)
+    return
+  loadingLoad.value = true
+  try {
+    page.value++
+    await fetchDiscoverList(true)
+  }
+  finally {
+    loadingLoad.value = false
+  }
+}
+
+watch(() => sortBy.value, () => {
+  page.value = 1
+  fetchDiscoverList()
+})
+
+watch(() => genres.value, () => {
+  page.value = 1
+  fetchDiscoverList()
+})
+
+onMounted(() => {
+  fetchDiscoverList()
+})
 </script>
 
 <template>
@@ -137,16 +168,31 @@ watchEffect(() => fetchDiscoverList())
             </template>
           </div>
         </div>
-        <div class="grid grid-cols-minmax-10rem flex-1 gap-6 lg:grid-cols-minmax-12rem">
-          <ClientOnly>
-            <MediaCard
-              v-for="list in lists"
-              :key="list.id"
-              :item="list"
-              :genre="getGenre(list.genre_ids[0])"
-              :type="type"
-            />
-          </ClientOnly>
+        <div class="flex flex-1 flex-col justify-center gap-10">
+          <div class="grid grid-cols-minmax-10rem flex-1 gap-6 lg:grid-cols-minmax-12rem">
+            <ClientOnly>
+              <MediaCard
+                v-for="list in lists"
+                :key="list.id"
+                :item="list"
+                :genre="getGenre(list.genre_ids[0])"
+                :type="type"
+              />
+            </ClientOnly>
+          </div>
+          <button
+            class="mx-auto rounded-full bg-[#ff0000] py-2"
+            @click="handleLoadMore"
+          >
+            <span v-show="!loadingLoad" key="loadmore" class="block px-10">Load More</span>
+            <span
+              v-show="loadingLoad"
+              key="loading"
+              class="flex animate-pulse items-center justify-center px-2"
+            >
+              <span class="i-carbon:circle-dash ma inline-block animate-spin text-xl" />
+            </span>
+          </button>
         </div>
       </div>
     </div>
