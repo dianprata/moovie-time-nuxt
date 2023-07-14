@@ -1,3 +1,3 @@
 export default eventHandler(() => {
-  return 'Nuxt Movies Proxy: <a href="https://github.com/nuxt/movies/tree/main/proxy">Learn more</a>'
+  return 'Moovie Time Proxy: <a href="https://github.com/dianprata/moovie-time-nuxt/tree/development/proxy">Learn more</a>'
 })

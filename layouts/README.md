@@ -9,7 +9,6 @@ By default, `default.vue` will be used unless an alternative is specified in the
 definePageMeta({
   layout: 'home',
 })
-  
 </script>
 ```
 
