@@ -1,15 +1,12 @@
-import { $fetch } from 'ofetch'
-import { getQuery } from 'ufo'
-
 const TMDB_API_URL = 'https://api.themoviedb.org/3'
 
 export default defineEventHandler(async (event) => {
-  const query = getQuery(event.req.url!)
+  const query = getQuery(event)
   // eslint-disable-next-line no-console
   console.log(
     'Fetching TMDB API',
     {
-      url: event.req.url,
+      url: getRequestURL(event).href,
       query,
       params: event.context.params,
     },
@@ -29,7 +26,9 @@ export default defineEventHandler(async (event) => {
   }
   catch (e: any) {
     const status = e?.response?.status || 500
-    event.res.statusCode = status
-    return e.message?.replace(config.tmdb.apiKey, '***')
+    setResponseStatus(event, status)
+    return {
+      error: String(e)?.replace(config.tmdb.apiKey, '***'),
+    }
   }
 })

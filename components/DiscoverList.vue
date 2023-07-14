@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Media, MediaType } from '~/types'
+import type { GenreList, Media, MediaType } from '~/types'
 
 const props = defineProps<{
   type: MediaType
@@ -9,9 +9,9 @@ const props = defineProps<{
 const sortBy = ref('popularity')
 const lists = ref<Media[]>()
 
-const genreList = await getGenreList(props.type)
-function getGenre(genre_ids) {
-  return genreList.find(item => item.id === genre_ids)?.name || ''
+const genreList: GenreList = await getGenreList(props.type)
+function getGenre(genre_ids: number) {
+  return genreList.genres.find(item => item.id === genre_ids)?.name || ''
 }
 watch(sortBy, () => {
   fetchDiscoverList()
@@ -34,7 +34,7 @@ onMounted(() => fetchDiscoverList())
     <div class="container-wrapper px-4 -mt-64 sm:-mt-56">
       <div class="mb-10 flex flex-col justify-between gap-x-2 gap-y-4 md:flex-row">
         <div class="text-2xl font-semibold">
-          <span class="bg-primary mb-3 block h-[6px] w-32" />
+          <span class="mb-3 block h-[6px] w-32 bg-primary" />
           <span>Discover {{ title }}</span>
         </div>
         <div class="flex items-center gap-3 sm:gap-5">

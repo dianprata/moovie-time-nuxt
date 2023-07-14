@@ -1,31 +1,42 @@
 import { LRUCache } from 'lru-cache'
 import { hash as ohash } from 'ohash'
-import type { Media, MediaType, PageResult, Review } from '~/types'
+import type { GenreList, Media, MediaType, PageResult, Review } from '~/types'
 
-const cache = new LRUCache<string, any>({
+// const apiBaseUrl = 'http://localhost:3001'
+const apiBaseUrl = 'https://moovie-time-nuxt.vercel.app'
+
+const promiseCache = new LRUCache<string, any>({
   max: 500,
   ttl: 2000 * 60 * 60, // 2 hour
 })
 
-function _fetchTMDB(url: string, params: Record<string, string | number | undefined> = {}) {
-  return $fetch(`/api/tmdb/${url}`, {
+async function _fetchTMDB(url: string, params: Record<string, string | number | boolean | undefined> = {}) {
+  return await $fetch(url, {
+    baseURL: `${apiBaseUrl}/tmdb`,
     params,
   })
 }
 
-export function fetchTMDB(url: string, params: Record<string, string | number | undefined> = {}): Promise<any> {
+export function fetchTMDB(url: string, params: Record<string, string | number | boolean | undefined> = {}): Promise<any> {
   const hash = ohash([url, params])
-  if (!cache.has(hash)) {
-    cache.set(
+  const state = useState<any>(hash, () => null)
+  if (state.value)
+    return state.value
+  if (!promiseCache.has(hash)) {
+    promiseCache.set(
       hash,
       _fetchTMDB(url, params)
+        .then((res) => {
+          state.value = res
+          return res
+        })
         .catch((e) => {
-          cache.delete(hash)
+          promiseCache.delete(hash)
           throw e
         }),
     )
   }
-  return cache.get(hash)!
+  return promiseCache.get(hash)!
 }
 
 export function listMedia(type: MediaType, query: string, page: number): Promise<PageResult<Media>> {
@@ -50,8 +61,8 @@ export function getDiscover(type: MediaType, payload: any): Promise<PageResult<M
   return fetchTMDB(`discover/${type}`, payload)
 }
 
-export function getGenreList(media: string): Promise<{ name: string; id: number }[]> {
-  return fetchTMDB(`genre/${media}/list`).then(res => res.genres)
+export function getGenreList(media: string): Promise<GenreList> {
+  return fetchTMDB(`genre/${media}/list`)
 }
 
 export function getSearchKeyword(query: string) {

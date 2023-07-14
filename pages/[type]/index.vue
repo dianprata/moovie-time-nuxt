@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VueBottomSheet } from '@webzlodimir/vue-bottom-sheet'
 import '@webzlodimir/vue-bottom-sheet/dist/style.css'
-import type { Genre, Media, MediaType, Options } from '~/types'
+import type { Genre, GenreList, Media, MediaType, Options } from '~/types'
 
 definePageMeta({
   key: route => route.fullPath,
@@ -55,9 +55,9 @@ const sortByOptions: Options[] = [
     value: 'vote_average.desc',
   },
 ] as Options[]
-const genreList = await getGenreList(type.value)
+const genreList: GenreList = await getGenreList(type.value)
 function getGenre(genre_ids: number) {
-  return genreList.find(item => item.id === genre_ids)?.name || ''
+  return genreList.genres.find(item => item.id === genre_ids)?.name || ''
 }
 
 async function fetchDiscoverList(loadMore = false) {
@@ -163,7 +163,7 @@ onMounted(() => {
           </div>
           <hr class="border-white/7">
           <div class="flex flex-col gap-4 p-5">
-            <template v-for="(g, index) in genreList" :key="index">
+            <template v-for="(g, index) in genreList.genres" :key="index">
               <BaseCheckbox :id="g.name + g.id" v-model="genres" :value="g" :label="g.name" />
             </template>
           </div>
@@ -217,7 +217,7 @@ onMounted(() => {
         </div>
         <hr class="border-white/7">
         <div class="flex flex-col gap-4 p-5">
-          <template v-for="(g, index) in genreList" :key="index">
+          <template v-for="(g, index) in genreList.genres" :key="index">
             <BaseCheckbox :id="g.name + g.id" v-model="genres" :value="g" :label="g.name" />
           </template>
         </div>

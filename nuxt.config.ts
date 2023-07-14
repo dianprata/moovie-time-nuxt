@@ -2,6 +2,9 @@ import { pwa } from './config/pwa'
 
 const isDev = process.env.NODE_ENV === 'development'
 
+// const apiBaseUrl = 'http://localhost:3001'
+const apiBaseUrl = 'https://moovie-time-nuxt.vercel.app'
+
 export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
@@ -13,12 +16,9 @@ export default defineNuxtConfig({
   ],
 
   experimental: {
-    // when using generate, payload js assets included in sw precache manifest
-    // but missing on offline, disabling extraction it until fixed
-    payloadExtraction: false,
     inlineSSRStyles: false,
+    viewTransition: true,
     renderJsonPayloads: true,
-    typedPages: true,
   },
 
   css: [
@@ -33,8 +33,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    tmdb: {
-      apiKey: process.env.TMDB_API_KEY || '',
+    public: {
+      apiBaseUrl,
     },
   },
 
@@ -44,21 +44,15 @@ export default defineNuxtConfig({
       proxy: {
         provider: 'ipx',
         options: {
-          baseURL: '/api/ipx',
+          baseURL: `${apiBaseUrl}/ipx`,
         },
       },
     },
   },
 
   nitro: {
-    esbuild: {
-      options: {
-        target: 'esnext',
-      },
-    },
-    prerender: {
-      crawlLinks: false,
-      routes: ['/'],
+    routeRules: {
+      '/**': { isr: false },
     },
   },
 

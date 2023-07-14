@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Media } from '~/types'
+import type { GenreList, Media } from '~/types'
 
 defineProps<{
   items: Media[]
 }>()
-const genreList = await getGenreList('movie')
-function getGenre(genre_ids) {
-  return genreList.find(item => item.id === genre_ids)?.name || ''
+const genreList: GenreList = await getGenreList('movie')
+function getGenre(genre_ids: number) {
+  return genreList.genres.find(item => item.id === genre_ids)?.name || ''
 }
 const mounted = useMounted()
 const breakpointsSwiper = ref({

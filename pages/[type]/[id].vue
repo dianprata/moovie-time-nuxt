@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaType } from '~/types'
+import type { GenreList, MediaType } from '~/types'
 
 definePageMeta({
   key: route => route.fullPath,
@@ -18,9 +18,9 @@ const [item, recommendations, reviews] = await Promise.all([
   getReviews(type.value, id.value),
 ])
 
-const genreList = await getGenreList(type.value)
+const genreList: GenreList = await getGenreList(type.value)
 function getGenre(genre_ids: number) {
-  return genreList.find(item => item.id === genre_ids)?.name || ''
+  return genreList.genres.find(item => item.id === genre_ids)?.name || ''
 }
 
 const $img = useImage()

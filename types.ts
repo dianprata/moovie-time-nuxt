@@ -129,6 +129,10 @@ export interface Genre {
   name: string
 }
 
+export interface GenreList {
+  genres: Genre[]
+}
+
 export interface SearchKeyword {
   id: number
   name: string

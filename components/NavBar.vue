@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
 import IconCategories from '@/components/icon/Categories.vue'
-import type { Media, PageResult } from '~/types'
+import type { GenreList, Media, PageResult } from '~/types'
 
 interface MenuLists {
   name: string
@@ -36,7 +36,7 @@ const menuLists: MenuLists[] = [
 
 const openCategories = ref(false)
 
-const categories = await getGenreList('movie')
+const categories: GenreList = await getGenreList('movie')
 const elCategories = ref()
 onClickOutside(elCategories, () => openCategories.value = false)
 
@@ -116,7 +116,7 @@ watch(width, () => {
                 class="absolute mt-3 max-h-80 of-y-auto rounded-md bg-white py-1"
               >
                 <div
-                  v-for="category in categories"
+                  v-for="category in categories.genres"
                   :key="category.id"
                   class="cursor-pointer px-4 py-1 text-sm text-[#1E232B] hover:bg-black/50 hover:text-white"
                 >
