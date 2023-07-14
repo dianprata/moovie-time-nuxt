@@ -3,7 +3,7 @@ import { hash as ohash } from 'ohash'
 import type { GenreList, Media, MediaType, PageResult, Review } from '~/types'
 
 // const apiBaseUrl = 'http://localhost:3001'
-const apiBaseUrl = 'https://moovie-time-nuxt.vercel.app'
+const apiBaseUrl = 'https://moovie-time-proxy.vercel.app'
 
 const promiseCache = new LRUCache<string, any>({
   max: 500,

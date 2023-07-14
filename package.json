@@ -3,7 +3,6 @@
   "packageManager": "pnpm@8.6.3",
   "scripts": {
     "build": "nuxi build",
-    "build:proxy": "cd proxy && pnpm build",
     "dev": "nuxi dev",
     "dev:proxy": "cd proxy && pnpm dev",
     "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
