@@ -51,7 +51,7 @@ export default defineNuxtConfig({
   nitro: {
     routeRules: {
       '/api/**': { cors: true },
-      '/api/tmdb/**': { swr: true },
+      // '/api/tmdb/**': { swr: true },
     },
     esbuild: {
       options: {
