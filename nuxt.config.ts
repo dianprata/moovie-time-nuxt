@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/**': isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } },
     '/api/**': { cors: true },
-    '/api/tmdb/**': { swr: 3600 },
+    '/api/tmdb/**': { swr: true },
   },
 
   runtimeConfig: {
