@@ -28,8 +28,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/**': isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } },
-    '/api/**': { cors: true },
-    '/api/tmdb/**': { swr: true },
   },
 
   runtimeConfig: {
@@ -51,6 +49,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    routeRules: {
+      '/api/**': { cors: true },
+      '/api/tmdb/**': { swr: true },
+    },
     esbuild: {
       options: {
         target: 'esnext',
