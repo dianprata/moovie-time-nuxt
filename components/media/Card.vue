@@ -22,14 +22,14 @@ defineProps<{
           </div>
           <NuxtLink
             :to="`/${item.media_type || type}/${item.id}`"
-            class="btn-primary rounded-full px-8 py-2 btn"
+            class="rounded-full px-8 py-2 btn btn-primary"
           >
             View
           </NuxtLink>
         </div>
       </div>
       <div class="absolute right-0 top-0 z-1 bg-[#1E232B]/80 px-2.5 py-1.5">
-        <span class="text-lg font-semibold text-neutral-200">{{ Math.floor(item.vote_average * 10) / 10 || 0 }}</span>
+        <span class="text-lg text-neutral-200 font-semibold">{{ Math.floor(item.vote_average * 10) / 10 || 0 }}</span>
       </div>
       <NuxtImg
         v-if="item.poster_path"
@@ -39,6 +39,7 @@ defineProps<{
         :src="`/tmdb${item.poster_path}`"
         :alt="item.title || item.name || ''"
         h-full w-full object-cover
+        :style="{ 'view-transition-name': `item-${item.id}` }"
       />
       <div v-else class="h-full flex bg-white/10">
         <div class="i-ph:question ma text-4xl op10" />

@@ -4,4 +4,6 @@ dist
 .output
 .nuxt
 .env
+.nitro
+/proxy/.nitro
 .idea/

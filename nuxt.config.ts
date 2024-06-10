@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { pwa } from './config/pwa'
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -13,12 +14,10 @@ export default defineNuxtConfig({
   ],
 
   experimental: {
-    // when using generate, payload js assets included in sw precache manifest
-    // but missing on offline, disabling extraction it until fixed
-    payloadExtraction: false,
-    inlineSSRStyles: false,
-    renderJsonPayloads: true,
     typedPages: true,
+    inlineSSRStyles: false,
+    viewTransition: true,
+    renderJsonPayloads: true,
   },
 
   css: [

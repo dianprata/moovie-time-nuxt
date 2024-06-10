@@ -44,7 +44,7 @@ useHead({
     <MediaHero :item="item" />
     <MediaReviews :reviews="reviews.results" class="pt-40" />
     <div class="container-wrapper px-4 py-12">
-      <h1 class="mb-10 font-semibold uppercase text-white">
+      <h1 class="mb-10 text-white font-semibold uppercase">
         Recommendation Movies
       </h1>
       <div class="grid grid-cols-minmax-10rem gap-6 lg:grid-cols-minmax-12rem">

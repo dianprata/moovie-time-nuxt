@@ -57,3 +57,11 @@ export function getGenreList(media: string): Promise<{ name: string; id: number 
 export function getSearchKeyword(query: string) {
   return fetchTMDB('search/multi', { query })
 }
+
+export function getTrendingList(media: string, time_window: string = 'day'): Promise<PageResult<Media>> {
+  return fetchTMDB(`trending/${media}/${time_window}`, { language: 'id-ID' })
+}
+
+export function getConfiguration(config: string, query?: string) {
+  return fetchTMDB(`configuration/${config}`, { query })
+}

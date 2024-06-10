@@ -65,6 +65,7 @@ const mounted = useMounted()
                 :alt="item.title || item.name || ''"
                 class="shadow-lg"
                 h-full w-full object-cover
+                :style="{ 'view-transition-name': `item-${item.id}` }"
               />
               <div v-else class="h-full w-full flex bg-black/50">
                 <div class="i-ph:question ma text-4xl op60" />
@@ -84,8 +85,8 @@ const mounted = useMounted()
         <div
           class="container-wrapper absolute left-1/2 w-full transform px-4 -bottom-1/4 -translate-x-1/2 lg:pl-[17rem] sm:-bottom-1/5"
         >
-          <span class="mb-1.5 inline-block text-sm font-medium uppercase text-[#FF0000]">Overview</span>
-          <p class="line-clamp-3 text-sm leading-relaxed text-black lg:line-clamp-2 xl:line-clamp-3">
+          <span class="mb-1.5 inline-block text-sm text-[#FF0000] font-medium uppercase">Overview</span>
+          <p class="line-clamp-3 text-sm text-black leading-relaxed lg:line-clamp-2 xl:line-clamp-3">
             {{ item.overview }}
           </p>
         </div>

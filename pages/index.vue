@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { getTrendingList } from '~/composables/tmdb'
+
 const lists = [
   { title: 'Movies', type: 'movie' },
   { title: 'TV Shows', type: 'tv' },
 ]
 
-const slides = await listMedia('movie', 'top_rated', 1)
+const slides = await getTrendingList('movie', 'week')
 </script>
 
 <template>

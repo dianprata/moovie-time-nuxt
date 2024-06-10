@@ -1,5 +1,5 @@
 <template>
-  <div class="relative font-sans">
+  <div class="relative font-sans view-transition-app">
     <NavBar />
     <div>
       <slot />

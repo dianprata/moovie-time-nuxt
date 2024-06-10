@@ -18,6 +18,9 @@ export default defineConfig({
     ['base-input', 'bg-transparent flex-1 focus:outline-none font-sans text-neutral-200'],
     ['bg-hero', 'bg-[#d3d3d3]/50 bg-cover bg-top bg-no-repeat relative aspect-ratio-1/1 -mt-16 lg:aspect-ratio-25/9 md:aspect-ratio-3/2'],
   ],
+  rules: [
+    [/^view-transition-([\w-]+)$/, ([, name]) => ({ 'view-transition-name': name })],
+  ],
   theme: {
     colors: {
       primary: '#E74C3C',

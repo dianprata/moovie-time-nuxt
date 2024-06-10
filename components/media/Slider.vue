@@ -5,7 +5,7 @@ defineProps<{
   items: Media[]
 }>()
 const genreList = await getGenreList('movie')
-function getGenre(genre_ids) {
+function getGenre(genre_ids: number) {
   return genreList.find(item => item.id === genre_ids)?.name || ''
 }
 const mounted = useMounted()
